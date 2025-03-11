@@ -95,6 +95,7 @@ import org.readium.r2.shared.util.Url
 import org.readium.r2.shared.util.mediatype.MediaType
 import org.readium.r2.shared.util.resource.Resource
 import org.readium.r2.shared.util.toAbsoluteUrl
+import timber.log.Timber
 
 /**
  * Factory for a [JavascriptInterface] which will be injected in the web views.
@@ -187,6 +188,8 @@ public class EpubNavigatorFragment internal constructor(
          */
         var selectionActionModeCallback: ActionMode.Callback?,
 
+        // TODO: should the horizontal paging be up here in COnfiguration on the whole web view
+        //  instead of in settings? LIke in swift: https://github.com/readium/swift-toolkit/blob/497bc6b450cd726dfa921f2362227fc998bc2848/Sources/Navigator/EPUB/EPUBNavigatorViewController.swift#L103
         /**
          * Whether padding accounting for display cutouts should be applied.
          */
@@ -283,6 +286,7 @@ public class EpubNavigatorFragment internal constructor(
     override val settings: StateFlow<EpubSettings> get() = viewModel.settings
 
     override fun submitPreferences(preferences: EpubPreferences) {
+        Timber.tag("TREY").d("submitting prefs in epub navigator fragment: $preferences")
         viewModel.submitPreferences(preferences)
     }
 

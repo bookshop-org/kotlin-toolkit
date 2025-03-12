@@ -87,8 +87,6 @@ internal class EpubNavigatorViewModel(
         MutableStateFlow(settingsPolicy.settings(initialPreferences))
     val settings: StateFlow<EpubSettings> = _settings.asStateFlow()
 
-    // TODO: access config for scroll here?
-
     val overflow: StateFlow<OverflowableNavigator.Overflow> = _settings
         .mapStateIn(viewModelScope) { settings ->
             SimpleOverflow(

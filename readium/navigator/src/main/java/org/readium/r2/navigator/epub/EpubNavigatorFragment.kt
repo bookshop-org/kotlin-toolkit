@@ -95,7 +95,6 @@ import org.readium.r2.shared.util.Url
 import org.readium.r2.shared.util.mediatype.MediaType
 import org.readium.r2.shared.util.resource.Resource
 import org.readium.r2.shared.util.toAbsoluteUrl
-import timber.log.Timber
 
 /**
  * Factory for a [JavascriptInterface] which will be injected in the web views.
@@ -182,14 +181,17 @@ public class EpubNavigatorFragment internal constructor(
         var decorationTemplates: HtmlDecorationTemplates,
 
         /**
+         * Indicates if a user can swipe to change resources while using scroll mode (above).
+         */
+        var scrollModeDisableSwipePagination: Boolean,
+
+        /**
          * Custom [ActionMode.Callback] to be used when the user selects content.
          *
          * Provide one if you want to customize the selection context menu items.
          */
         var selectionActionModeCallback: ActionMode.Callback?,
 
-        // TODO: should the horizontal paging be up here in COnfiguration on the whole web view
-        //  instead of in settings? LIke in swift: https://github.com/readium/swift-toolkit/blob/497bc6b450cd726dfa921f2362227fc998bc2848/Sources/Navigator/EPUB/EPUBNavigatorViewController.swift#L103
         /**
          * Whether padding accounting for display cutouts should be applied.
          */
@@ -213,12 +215,14 @@ public class EpubNavigatorFragment internal constructor(
             servedAssets: List<String> = emptyList(),
             readiumCssRsProperties: RsProperties = RsProperties(),
             decorationTemplates: HtmlDecorationTemplates = HtmlDecorationTemplates.defaultTemplates(),
+            scrollModeDisableSwipePagination: Boolean = false,
             selectionActionModeCallback: ActionMode.Callback? = null,
             shouldApplyInsetsPadding: Boolean? = true,
         ) : this(
             servedAssets = servedAssets,
             readiumCssRsProperties = readiumCssRsProperties,
             decorationTemplates = decorationTemplates,
+            scrollModeDisableSwipePagination = scrollModeDisableSwipePagination,
             selectionActionModeCallback = selectionActionModeCallback,
             shouldApplyInsetsPadding = shouldApplyInsetsPadding,
             disableSelectionWhenProtected = true,
@@ -286,7 +290,6 @@ public class EpubNavigatorFragment internal constructor(
     override val settings: StateFlow<EpubSettings> get() = viewModel.settings
 
     override fun submitPreferences(preferences: EpubPreferences) {
-        Timber.tag("TREY").d("submitting prefs in epub navigator fragment: $preferences")
         viewModel.submitPreferences(preferences)
     }
 

@@ -13,7 +13,6 @@ import org.readium.r2.shared.ExperimentalReadiumApi
 import org.readium.r2.shared.publication.Metadata
 import org.readium.r2.shared.publication.ReadingProgression as PublicationReadingProgression
 import org.readium.r2.shared.util.Language
-import timber.log.Timber
 
 @OptIn(ExperimentalReadiumApi::class)
 internal class EpubSettingsResolver(
@@ -30,10 +29,6 @@ internal class EpubSettingsResolver(
         val theme = preferences.theme ?: Theme.LIGHT
 
         var scroll = preferences.scroll ?: defaults.scroll ?: false
-
-        // TODO: test setting with vertical text
-        val scrollDisableSwipePagination = preferences.scrollDisableSwipePagination ?: defaults.scrollDisableSwipePagination ?: false
-        Timber.tag("TREY").d("scroll swipe disabled? $scrollDisableSwipePagination")
 
         // / We disable pagination with vertical text, because CSS columns don't support it properly.
         // / See https://github.com/readium/swift-toolkit/discussions/370
@@ -59,7 +54,6 @@ internal class EpubSettingsResolver(
             publisherStyles = preferences.publisherStyles ?: defaults.publisherStyles ?: true,
             readingProgression = readingProgression,
             scroll = scroll,
-            scrollDisableSwipePagination = scrollDisableSwipePagination,
             spread = preferences.spread ?: defaults.spread ?: Spread.NEVER,
             textAlign = preferences.textAlign ?: defaults.textAlign,
             textColor = preferences.textColor,

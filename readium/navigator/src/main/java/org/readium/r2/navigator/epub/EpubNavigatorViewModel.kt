@@ -85,8 +85,9 @@ internal class EpubNavigatorViewModel(
 
     private val _settings: MutableStateFlow<EpubSettings> =
         MutableStateFlow(settingsPolicy.settings(initialPreferences))
-
     val settings: StateFlow<EpubSettings> = _settings.asStateFlow()
+
+    // TODO: access config for scroll here?
 
     val overflow: StateFlow<OverflowableNavigator.Overflow> = _settings
         .mapStateIn(viewModelScope) { settings ->
@@ -148,6 +149,8 @@ internal class EpubNavigatorViewModel(
     }
 
     fun onResourceLoaded(webView: R2BasicWebView, link: Link): RunScriptCommand {
+        webView.scrollModeDisableSwipePaginationFlow.value = config.scrollModeDisableSwipePagination
+
         val templates = decorationTemplates.toJSON().toString()
             .replace("\\n", " ")
         var script = "readium.registerDecorationTemplates($templates);\n"

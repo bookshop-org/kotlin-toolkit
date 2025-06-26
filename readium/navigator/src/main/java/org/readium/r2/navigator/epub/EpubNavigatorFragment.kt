@@ -12,6 +12,7 @@ import android.graphics.PointF
 import android.graphics.RectF
 import android.os.Bundle
 import android.util.LayoutDirection
+import android.util.Log
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
@@ -344,6 +345,7 @@ public class EpubNavigatorFragment internal constructor(
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        Log.d("kotlin-toolkit", "kotlin-toolkit: testing custom aar loading")
         currentActivity = requireActivity()
         _binding = ReadiumNavigatorViewpagerBinding.inflate(inflater, container, false)
         var view: View = binding.root
